@@ -13,6 +13,7 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
+            overflow: hidden;
         }
 
         .container {
@@ -21,12 +22,19 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease-in-out;
         }
 
         .fact-box {
             margin: 20px 0;
             font-size: 1.2em;
             color: #333;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .fact-box.visible {
+            opacity: 1;
         }
 
         button {
@@ -37,10 +45,19 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
             background-color: #0056b3;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 10px;
+            transition: transform 0.5s ease-in-out;
         }
     </style>
 </head>
@@ -50,25 +67,67 @@
         <div id="fact" class="fact-box">
             Click the button to see a fun fact!
         </div>
+        <img id="factImage" src="" alt="Fact Image" style="display:none;">
         <button id="generateFact">Generate Fact</button>
     </div>
     <script>
         const facts = [
-            "Earth is the third planet from the Sun.",
-            "Approximately 71% of Earth's surface is covered by water.",
-            "Earth is the only known planet to support life.",
-            "Earth has one natural satellite, the Moon.",
-            "The Earth's atmosphere is composed of 78% nitrogen and 21% oxygen.",
-            "Earth's rotation period is about 24 hours, which defines the length of a day.",
-            "The Earth's core is composed primarily of iron and nickel.",
-            "Earth's magnetic field protects it from solar and cosmic radiation.",
-            "The highest point on Earth is Mount Everest, which is 8,848 meters tall.",
-            "Earth's age is estimated to be about 4.5 billion years."
+            {
+                text: "Earth is the third planet from the Sun.",
+                image: "https://example.com/earth.jpg"
+            },
+            {
+                text: "Approximately 71% of Earth's surface is covered by water.",
+                image: "https://example.com/water.jpg"
+            },
+            {
+                text: "Earth is the only known planet to support life.",
+                image: "https://example.com/life.jpg"
+            },
+            {
+                text: "Earth has one natural satellite, the Moon.",
+                image: "https://example.com/moon.jpg"
+            },
+            {
+                text: "The Earth's atmosphere is composed of 78% nitrogen and 21% oxygen.",
+                image: "https://example.com/atmosphere.jpg"
+            },
+            {
+                text: "Earth's rotation period is about 24 hours, which defines the length of a day.",
+                image: "https://example.com/rotation.jpg"
+            },
+            {
+                text: "The Earth's core is composed primarily of iron and nickel.",
+                image: "https://example.com/core.jpg"
+            },
+            {
+                text: "Earth's magnetic field protects it from solar and cosmic radiation.",
+                image: "https://example.com/magnetic_field.jpg"
+            },
+            {
+                text: "The highest point on Earth is Mount Everest, which is 8,848 meters tall.",
+                image: "https://example.com/everest.jpg"
+            },
+            {
+                text: "Earth's age is estimated to be about 4.5 billion years.",
+                image: "https://example.com/age.jpg"
+            }
         ];
 
         document.getElementById('generateFact').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * facts.length);
-            document.getElementById('fact').textContent = facts[randomIndex];
+            const factElement = document.getElementById('fact');
+            const imageElement = document.getElementById('factImage');
+
+            factElement.classList.remove('visible');
+            imageElement.style.display = 'none';
+
+            setTimeout(() => {
+                factElement.textContent = facts[randomIndex].text;
+                imageElement.src = facts[randomIndex].image;
+                imageElement.style.display = 'block';
+                factElement.classList.add('visible');
+            }, 500);
         });
     </script>
 </body>
